@@ -1,15 +1,20 @@
 const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
-const connectDatabase = () => {
-  mongoose.connect(process.env.DB_URI, {
-    //useNewUrlParser: true,
-    //useUnifiedTopology: true,
-   // useCreateIndex: true,
-   // useFindAndModify: false,
-  })
-  .then((data) => {
-    console.log(`Mongoose connected with server: ${data.connection.host}`);
-  })
+// Load environment variables
+dotenv.config({ path: "Backend/config/config.env" });
+
+const connectDatabase = async () => {
+    try {
+        const conn = await mongoose.connect(process.env.MONGO_URI, {
+            
+        });
+
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+    } catch (error) {
+        console.error(`Error: ${error.message}`);
+        process.exit(1); // Exit process with failure
+    }
 };
 
 module.exports = connectDatabase;
